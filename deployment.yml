@@ -1,0 +1,49 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: anilk8d
+  
+  labels:
+    app: anilk8d
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: anilk8d
+
+  template:
+    metadata:
+      labels:
+        app: anilk8d
+    spec:
+      containers:
+        - name: asgmt3-container
+          image: asgmt3d.azurecr.io/anilk8d
+          ports:
+          - containerPort: 3000
+          imagePullPolicy: Always
+          
+        
+      restartPolicy: Always
+...
+---
+apiVersion: v1
+kind: Service
+
+metadata:
+  name: anilk8s
+  
+  labels:
+    app: anilk8d
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: 3000
+      name: http-port
+      protocol: TCP
+  selector:
+    app: anilk8d
+...
